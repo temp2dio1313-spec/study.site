@@ -3,95 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intellectual Study Space</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Noto+Sans+JP:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <title>Study Palette - 明るくおしゃれな勉強記録</title>
     <style>
         :root {
-            --bg-primary: #0f141c;
-            --bg-secondary: #161f2d;
-            --accent-color: #64ffda;
-            --text-primary: #e2e8f0;
-            --text-muted: #8892b0;
-            --border-color: #233554;
-            --font-intellectual: 'Cinzel', serif;
-            --font-mono: 'Roboto Mono', monospace;
-            --font-sans: 'Noto Sans JP', sans-serif;
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-main: #333d47;
+            --text-sub: #7d8790;
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --accent: #00cec9;
+            --border: #e4e7eb;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
         }
 
         body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: var(--font-sans);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        /* ーー ヘッダー・ナビゲーション ーー */
-        header {
-            background-color: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: var(--font-intellectual);
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            color: var(--accent-color);
-        }
-
-        nav {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .nav-btn {
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-muted);
-            padding: 0.5rem 1.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .nav-btn:hover, .nav-btn.active {
-            color: var(--accent-color);
-            border-color: var(--accent-color);
-            background-color: rgba(100, 255, 218, 0.05);
-        }
-
-        /* ーー メインコンテンツ ーー */
-        main {
-            flex: 1;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 2rem;
-            position: relative;
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        .view-section {
-            display: none;
+        /* 共通カードスタイル */
+        .container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             width: 100%;
-            max-width: 800px;
-            animation: fadeIn 0.5s ease forwards;
+            max-width: 900px;
+            padding: 40px;
+            transition: all 0.3s ease;
         }
 
-        .view-section.active {
-            display: block;
+        h2 {
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-align: center;
+            color: var(--text-main);
+            letter-spacing: 1px;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            font-size: 15px;
+            background: #fafafa;
+            transition: border 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #fff;
+        }
+
+        /* ログイン画面 */
+        #login-screen {
+            max-width: 400px;
+        }
+
+        /* メイン画面レイアウト */
+        #main-screen {
+            display: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .user-welcome {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* 上部：時計＆ミニカレンダー */
+        .dashboard-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-card {
+            background: #fdfdfd;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 160px;
+        }
+
+        #live-clock {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        #live-date {
+            font-size: 16px;
+            color: var(--text-sub);
+        }
+
+        /* ミニカレンダー */
+        .mini-cal {
+            width: 100%;
+            text-align: center;
+        }
+        .mini-cal-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+        .mini-cal-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            font-size: 12px;
+        }
+        .mini-cal-day {
+            padding: 5px;
+            color: var(--text-sub);
+        }
+        .mini-cal-day.today {
+            background: var(--primary-light);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        /* 下部：ナビゲーションボタン */
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .nav-btn {
+            background: #f0f3f8;
+            color: var(--text-main);
+            font-weight: 600;
+            padding: 16px;
+        }
+
+        .nav-btn.active, .nav-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* コンテンツエリア */
+        .content-section {
+            display: none;
+            border-top: 1px solid var(--border);
+            padding-top: 30px;
+            animation: fadeIn 0.4s ease;
         }
 
         @keyframes fadeIn {
@@ -99,651 +202,421 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ーー 学習メニュー：サブモードボタン ーー */
-        .sub-nav {
+        /* タイマー機能 */
+        .timer-tabs {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-bottom: 3rem;
+            gap: 10px;
+            margin-bottom: 20px;
         }
-
-        .sub-btn {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 0.6rem 2rem;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
+        .timer-tab-btn {
+            background: none;
+            color: var(--text-sub);
+            border: 1px solid var(--border);
         }
-
-        .sub-btn:hover, .sub-btn.active {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            box-shadow: 0 0 15px rgba(100, 255, 218, 0.1);
+        .timer-tab-btn.active {
+            background: var(--text-main);
+            color: white;
         }
-
-        /* ーー 各種タイマー・時計の表示エリア ーー */
-        .display-container {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 4rem 2rem;
+        .timer-display {
+            font-size: 64px;
+            font-weight: 700;
             text-align: center;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin: 20px 0;
+            font-family: monospace;
+            color: var(--text-main);
         }
-
-        .mode-panel {
-            display: none;
-        }
-
-        .mode-panel.active {
-            display: block;
-        }
-
-        /* 時計デザイン */
-        .clock-digital {
-            font-family: var(--font-mono);
-            font-size: 4.5rem;
-            font-weight: 300;
-            color: var(--text-primary);
-            letter-spacing: -2px;
-        }
-        .clock-date {
-            font-family: var(--font-intellectual);
-            color: var(--text-muted);
-            letter-spacing: 4px;
-            margin-top: 1rem;
-            font-size: 1.1rem;
-        }
-
-        /* タイマー共通デザイン */
-        .timer-digits {
-            font-family: var(--font-mono);
-            font-size: 5.5rem;
-            font-weight: 300;
-            color: var(--text-primary);
-            margin-bottom: 2rem;
-        }
-
         .timer-controls {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
-            margin-top: 2rem;
+            gap: 10px;
         }
 
-        .btn-primary {
-            background: transparent;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 0.75rem 2.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-        .btn-primary:hover {
-            background: rgba(100, 255, 218, 0.1);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 1px solid var(--text-muted);
-            color: var(--text-muted);
-            padding: 0.75rem 2.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-        .btn-secondary:hover {
-            color: var(--text-primary);
-            border-color: var(--text-primary);
-        }
-
-        .pomo-label {
-            font-family: var(--font-intellectual);
-            font-size: 1.2rem;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
-        }
-
-        .timer-presets {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .preset-btn {
-            background: rgba(255,255,255,0.05);
-            border: none;
-            color: var(--text-muted);
-            padding: 0.4rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: var(--font-mono);
-            transition: all 0.2s;
-        }
-        .preset-btn:hover {
-            background: var(--border-color);
-            color: var(--text-primary);
-        }
-
-        /* ーー To Do ドロワー ーー */
-        .todo-toggle-btn {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 0.8rem 1.8rem;
-            border-radius: 30px;
-            cursor: pointer;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            font-weight: 500;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-        }
-        .todo-toggle-btn:hover {
-            background: var(--accent-color);
-            color: var(--bg-primary);
-        }
-
-        .todo-drawer {
-            position: fixed;
-            top: 0;
-            right: -360px;
-            width: 360px;
-            height: 100%;
-            background: var(--bg-secondary);
-            border-left: 1px solid var(--border-color);
-            box-shadow: -5px 0 30px rgba(0,0,0,0.5);
-            z-index: 99;
-            transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-        }
-        .todo-drawer.open {
-            right: 0;
-        }
-
-        .todo-header {
-            font-family: var(--font-intellectual);
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            letter-spacing: 1px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .todo-close {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-
-        .todo-input-area {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .todo-input {
-            flex: 1;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 0.6rem;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-        }
-        .todo-input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-        .todo-add-btn {
-            background: transparent;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 0.6rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .todo-list {
-            list-style: none;
-            overflow-y: auto;
-            flex: 1;
-        }
-        .todo-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.75rem 0.5rem;
-            border-bottom: 1px solid rgba(35, 53, 84, 0.4);
-            animation: fadeIn 0.3s ease;
-        }
-        .todo-item-left {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .todo-item input[type="checkbox"] {
-            accent-color: var(--accent-color);
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-        .todo-text {
-            font-size: 0.95rem;
-            transition: color 0.3s, text-decoration 0.3s;
-        }
-        .todo-item input[type="checkbox"]:checked + .todo-text {
-            color: var(--text-muted);
-            text-decoration: line-through;
-        }
-        .todo-del-btn {
-            background: none;
-            border: none;
-            color: #ff6b6b;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: opacity 0.2s;
-        }
-        .todo-del-btn:hover { opacity: 1; }
-
-
-        /* ーー 勉強時間（カレンダー） ーー */
-        .calendar-wrapper {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        .calendar-title {
-            font-family: var(--font-intellectual);
-            font-size: 1.4rem;
-            letter-spacing: 2px;
-        }
-        .calendar-grid {
+        /* 勉強記録（カレンダー） */
+        .record-calendar {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            text-align: center;
+            gap: 10px;
+            margin-top: 20px;
         }
-        .weekday {
-            font-family: var(--font-intellectual);
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border-color);
+        .calendar-cell {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px;
+            min-height: 80px;
+            position: relative;
+            background: #fff;
         }
-        .day-cell {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid transparent;
-            aspect-ratio: 1;
-            border-radius: 8px;
-            padding: 0.4rem;
+        .calendar-cell .date-num {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+        .calendar-cell .study-time {
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: bold;
+            margin-top: 8px;
+            display: block;
+        }
+        .record-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* メモ */
+        #memo-textarea {
+            height: 200px;
+            resize: none;
+            line-height: 1.6;
+        }
+
+        /* チャット */
+        .chat-room {
             display: flex;
             flex-direction: column;
+            height: 400px;
+        }
+        .chat-messages {
+            flex-grow: 1;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            overflow-y: auto;
+            background: #fafbfc;
+            margin-bottom: 15px;
+        }
+        .chat-bubble {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            border-left: 4px solid var(--primary-light);
+            max-width: 85%;
+        }
+        .chat-meta {
+            display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            cursor: pointer;
-            transition: all 0.2s;
+            font-size: 11px;
+            color: var(--text-sub);
+            margin-bottom: 4px;
         }
-        .day-cell:hover {
-            border-color: var(--border-color);
-            background: rgba(100, 255, 218, 0.03);
+        .chat-text {
+            font-size: 14px;
+            word-break: break-all;
         }
-        .day-cell.empty {
-            background: transparent;
-            cursor: default;
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
         }
-        .day-num {
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-        .day-cell:hover .day-num {
-            color: var(--text-primary);
-        }
-        .study-time-tag {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--accent-color);
-            background: rgba(100, 255, 218, 0.1);
-            padding: 1px 4px;
-            border-radius: 3px;
-            width: 100%;
-            text-align: right;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+        .chat-input-area input {
+            margin-bottom: 0;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">STUDY LAB</div>
-        <nav>
-            <button class="nav-btn active" onclick="switchMainView('learning')">学習</button>
-            <button class="nav-btn" onclick="switchMainView('analytics')">勉強時間</button>
-        </nav>
-    </header>
-
-    <main>
-        <section id="learning-section" class="view-section active">
-            <div class="sub-nav">
-                <button class="sub-btn active" id="btn-mode-clock" onclick="switchLearningMode('clock')">時計</button>
-                <button class="sub-btn" id="btn-mode-pomo" onclick="switchLearningMode('pomo')">ポモドーロタイマー</button>
-                <button class="sub-btn" id="btn-mode-timer" onclick="switchLearningMode('timer')">タイマー</button>
-            </div>
-
-            <div class="display-container">
-                <div id="panel-clock" class="mode-panel active">
-                    <div class="clock-digital" id="digital-clock">00:00:00</div>
-                    <div class="clock-date" id="date-display">MMM DD, YYYY</div>
-                </div>
-
-                <div id="panel-pomo" class="mode-panel">
-                    <div class="pomo-label" id="pomo-status">FOCUS TIME</div>
-                    <div class="timer-digits" id="pomo-digits">25:00</div>
-                    <div class="timer-presets">
-                        <button class="preset-btn" onclick="setPomoMode(25, 'FOCUS TIME')">25m</button>
-                        <button class="preset-btn" onclick="setPomoMode(5, 'BREAK TIME')">5m</button>
-                    </div>
-                    <div class="timer-controls">
-                        <button class="btn-primary" id="pomo-start-btn" onclick="togglePomo()">START</button>
-                        <button class="btn-secondary" onclick="resetPomo()">RESET</button>
-                    </div>
-                </div>
-
-                <div id="panel-timer" class="mode-panel">
-                    <div class="timer-digits" id="timer-digits">10:00</div>
-                    <div class="timer-presets">
-                        <button class="preset-btn" onclick="adjustTimer(60)">+1m</button>
-                        <button class="preset-btn" onclick="adjustTimer(300)">+5m</button>
-                        <button class="preset-btn" onclick="adjustTimer(600)">+10m</button>
-                        <button class="preset-btn" onclick="adjustTimer(1800)">+30m</button>
-                    </div>
-                    <div class="timer-controls">
-                        <button class="btn-primary" id="timer-start-btn" onclick="toggleTimer()">START</button>
-                        <button class="btn-secondary" onclick="resetTimer()">RESET</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="analytics-section" class="view-section">
-            <div class="calendar-wrapper">
-                <div class="calendar-header">
-                    <button class="btn-secondary" style="padding: 0.4rem 1rem;" onclick="changeMonth(-1)">◀</button>
-                    <div class="calendar-title" id="calendar-month-year">June 2026</div>
-                    <button class="btn-secondary" style="padding: 0.4rem 1rem;" onclick="changeMonth(1)">▶</button>
-                </div>
-                <div class="calendar-grid" id="calendar-grid">
-                    </div>
-            </div>
-        </section>
-    </main>
-
-    <button class="todo-toggle-btn" onclick="toggleTodoDrawer()">To do</button>
-    <div class="todo-drawer" id="todo-drawer">
-        <div class="todo-header">
-            <span>TRACKS</span>
-            <button class="todo-close" onclick="toggleTodoDrawer()">×</button>
+    <div id="login-screen" class="container">
+        <h2>Study Palette</h2>
+        <div style="margin-bottom: 15px; text-align: center; color: var(--text-sub); font-size: 13px;">
+            ログインして勉強をはじめましょう
         </div>
-        <div class="todo-input-area">
-            <input type="text" class="todo-input" id="todo-input" placeholder="新しいタスクを追加..." onkeypress="if(event.key==='Enter')addTodo()">
-            <button class="todo-add-btn" onclick="addTodo()">+</button>
+        <input type="text" id="username" placeholder="ユーザーID">
+        <input type="password" id="password" placeholder="パスワード">
+        <button onclick="login()" style="width: 100%;">ログイン</button>
+        <p id="login-error" style="color: red; font-size: 13px; text-align: center; margin-top: 10px; display: none;">IDまたはパスワードが違います</p>
+    </div>
+
+    <div id="main-screen" class="container">
+        <div class="header">
+            <div class="user-welcome">Welcome, <span id="user-display-name">ユーザー</span> さん</div>
+            <button onclick="logout()" style="background:none; color:var(--text-sub); padding:0; font-size:14px;">ログアウト</button>
         </div>
-        <ul class="todo-list" id="todo-list">
-            </ul>
+
+        <div class="dashboard-top">
+            <div class="dashboard-card">
+                <div id="live-clock">00:00:00</div>
+                <div id="live-date">2026年06月21日(日)</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="mini-cal">
+                    <div class="mini-cal-header" id="mini-month">2026年6月</div>
+                    <div class="mini-cal-days" id="mini-days">
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="switchSection('timer')">勉強タイマー</button>
+            <button class="nav-btn" onclick="switchSection('record')">勉強記録</button>
+            <button class="nav-btn" onclick="switchSection('memo')">メモ</button>
+            <button class="nav-btn" onclick="switchSection('chat')">チャット</button>
+        </div>
+
+        <div id="section-timer" class="content-section">
+            <div class="timer-tabs">
+                <button class="timer-tab-btn active" onclick="setTimerMode('clock')">知的時計</button>
+                <button class="timer-tab-btn" onclick="setTimerMode('pomodoro')">ポモドーロ</button>
+                <button class="timer-tab-btn" onclick="setTimerMode('timer')">タイマー(15分)</button>
+            </div>
+            <div class="timer-display" id="timer-display">00:00</div>
+            <div class="timer-controls">
+                <button id="timer-start-btn" onclick="toggleTimer()">スタート</button>
+                <button onclick="resetTimer()">リセット</button>
+            </div>
+        </div>
+
+        <div id="section-record" class="content-section">
+            <div class="record-input-group">
+                <input type="number" id="study-hours" placeholder="今日の勉強時間 (分)" min="0">
+                <button onclick="saveStudyRecord()">記録する</button>
+            </div>
+            <div class="record-calendar" id="record-calendar">
+                </div>
+        </div>
+
+        <div id="section-memo" class="content-section">
+            <textarea id="memo-textarea" placeholder="ここに自由にメモを残せます。自動保存されます..." oninput="saveMemo()"></textarea>
+            <p style="font-size: 12px; color: var(--text-sub); text-align: right;">※このメモはあなただけに同期されています</p>
+        </div>
+
+        <div id="section-chat" class="content-section">
+            <div class="chat-room">
+                <div class="chat-messages" id="chat-messages">
+                    </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="メッセージを入力..." onkeypress="if(event.key==='Enter') sendChat()">
+                    <button onclick="sendChat()">送信</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // ーー 状態管理 ーー
-        let currentMonth = new Date().getMonth();
-        let currentYear = new Date().getFullYear();
-        let studyLog = JSON.parse(localStorage.getItem('studyLog')) || {};
+        // ユーザーデータ
+        const users = {
+            "takuma": { pass: "1111", name: "柿原 拓真" },
+            "yuzuki": { pass: "0925", name: "新里 結月" }
+        };
 
-        // ーー メインメニュー切り替え ーー
-        function switchMainView(view) {
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+        let currentUser = null;
+
+        // ログイン処理
+        function login() {
+            const id = document.getElementById("username").value;
+            const pass = document.getElementById("password").value;
             
-            if(view === 'learning') {
-                event.target.classList.add('active');
-                document.getElementById('learning-section').classList.add('active');
+            if (users[id] && users[id].pass === pass) {
+                currentUser = users[id];
+                currentUser.id = id;
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("main-screen").style.display = "block";
+                document.getElementById("user-display-name").textContent = currentUser.name;
+                
+                // 初期化処理
+                initDashboard();
+                loadMemo();
+                switchSection('timer'); // 初期セクション
+                document.getElementById("login-error").style.display = "none";
             } else {
-                event.target.classList.add('active');
-                document.getElementById('analytics-section').classList.add('active');
-                renderCalendar();
+                document.getElementById("login-error").style.display = "block";
             }
         }
 
-        // ーー 学習サブモード切り替え ーー
-        function switchLearningMode(mode) {
-            document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
-
-            document.getElementById(`btn-mode-${mode}`).classList.add('active');
-            document.getElementById(`panel-${mode}`).classList.add('active');
+        function logout() {
+            currentUser = null;
+            document.getElementById("login-screen").style.display = "block";
+            document.getElementById("main-screen").style.display = "none";
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
         }
 
-        // ーー 1. 時計機能 ーー
-        function updateClock() {
+        // ダッシュボード（時計・ミニカレンダー）の同期
+        function initDashboard() {
+            // リアルタイム時計
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById("live-clock").textContent = now.toTimeString().split(' ')[0];
+                const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
+                document.getElementById("live-date").textContent = now.toLocaleDateString('ja-JP', options);
+                if(timerMode === 'clock') {
+                    document.getElementById("timer-display").textContent = now.toTimeString().split(' ')[0].substring(0,5);
+                }
+            }, 1000);
+
+            // ミニカレンダー（直近1週間をシンプルに表示）
+            const miniDays = document.getElementById("mini-days");
+            miniDays.innerHTML = "";
             const now = new Date();
-            const h = String(now.getHours()).padStart(2, '0');
-            const m = String(now.getMinutes()).padStart(2, '0');
-            const s = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('digital-clock').textContent = `${h}:${m}:${s}`;
-
-            const options = { month: 'short', day: 'numeric', year: 'numeric', weekday: 'short' };
-            document.getElementById('date-display').textContent = now.toLocaleDateString('en-US', options).toUpperCase();
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // ーー 2. ポモドーロタイマー機能 ーー
-        let pomoInterval;
-        let pomoSecondsLeft = 1500; 
-        let pomoIsRunning = false;
-
-        function updatePomoDisplay() {
-            const min = String(Math.floor(pomoSecondsLeft / 60)).padStart(2, '0');
-            const sec = String(pomoSecondsLeft % 60).padStart(2, '0');
-            document.getElementById('pomo-digits').textContent = `${min}:${sec}`;
-        }
-
-        function setPomoMode(minutes, label) {
-            clearInterval(pomoInterval);
-            pomoIsRunning = false;
-            pomoSecondsLeft = minutes * 60;
-            document.getElementById('pomo-status').textContent = label;
-            document.getElementById('pomo-start-btn').textContent = 'START';
-            updatePomoDisplay();
-        }
-
-        function togglePomo() {
-            if (pomoIsRunning) {
-                clearInterval(pomoInterval);
-                document.getElementById('pomo-start-btn').textContent = 'START';
-            } else {
-                pomoInterval = setInterval(() => {
-                    if (pomoSecondsLeft > 0) {
-                        pomoSecondsLeft--;
-                        updatePomoDisplay();
-                    } else {
-                        clearInterval(pomoInterval);
-                        alert("Time up!");
-                        resetPomo();
-                    }
-                }, 1000);
-                document.getElementById('pomo-start-btn').textContent = 'PAUSE';
+            for(let i = -3; i <= 3; i++) {
+                const d = new Date();
+                d.setDate(now.getDate() + i);
+                const isToday = i === 0 ? "today" : "";
+                miniDays.innerHTML += `<div class="mini-cal-day ${isToday}">${d.getDate()}</div>`;
             }
-            pomoIsRunning = !pomoIsRunning;
+            document.getElementById("mini-month").textContent = `${now.getFullYear()}年 ${now.getMonth()+1}月`;
+            
+            // 記録カレンダーの生成
+            renderRecordCalendar();
         }
 
-        function resetPomo() {
-            clearInterval(pomoInterval);
-            pomoIsRunning = false;
-            pomoSecondsLeft = 1500;
-            document.getElementById('pomo-status').textContent = 'FOCUS TIME';
-            document.getElementById('pomo-start-btn').textContent = 'START';
-            updatePomoDisplay();
+        // セクション切り替え
+        function switchSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(`section-${sectionId}`).style.display = 'block';
+            event.target.classList.add('active');
+
+            if(sectionId === 'chat') {
+                loadChat();
+            }
         }
 
-        // ーー 3. 汎用タイマー機能 ーー
-        let timerInterval;
-        let timerSecondsLeft = 600;
-        let timerIsRunning = false;
+        // タイマー機能のロジック
+        let timerMode = 'clock'; 
+        let timerInterval = null;
+        let timerSeconds = 0;
+        let isRunning = false;
+
+        function setTimerMode(mode) {
+            timerMode = mode;
+            clearInterval(timerInterval);
+            isRunning = false;
+            document.getElementById("timer-start-btn").textContent = "スタート";
+            document.querySelectorAll('.timer-tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (mode === 'clock') {
+                const now = new Date();
+                document.getElementById("timer-display").textContent = now.toTimeString().split(' ')[0].substring(0,5);
+            } else if (mode === 'pomodoro') {
+                timerSeconds = 25 * 60;
+                updateTimerDisplay();
+            } else if (mode === 'timer') {
+                timerSeconds = 15 * 60;
+                updateTimerDisplay();
+            }
+        }
 
         function updateTimerDisplay() {
-            const min = String(Math.floor(timerSecondsLeft / 60)).padStart(2, '0');
-            const sec = String(timerSecondsLeft % 60).padStart(2, '0');
-            document.getElementById('timer-digits').textContent = `${min}:${sec}`;
-        }
-
-        function adjustTimer(amount) {
-            timerSecondsLeft += amount;
-            updateTimerDisplay();
+            const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+            const s = (timerSeconds % 60).toString().padStart(2, '0');
+            document.getElementById("timer-display").textContent = `${m}:${s}`;
         }
 
         function toggleTimer() {
-            if (timerIsRunning) {
+            if(timerMode === 'clock') return;
+            if (isRunning) {
                 clearInterval(timerInterval);
-                document.getElementById('timer-start-btn').textContent = 'START';
+                document.getElementById("timer-start-btn").textContent = "スタート";
             } else {
                 timerInterval = setInterval(() => {
-                    if (timerSecondsLeft > 0) {
-                        timerSecondsLeft--;
+                    if(timerSeconds > 0) {
+                        timerSeconds--;
                         updateTimerDisplay();
                     } else {
                         clearInterval(timerInterval);
-                        alert("Timer finished!");
-                        resetTimer();
+                        alert("時間になりました！お疲れ様です。");
                     }
                 }, 1000);
-                document.getElementById('timer-start-btn').textContent = 'PAUSE';
+                document.getElementById("timer-start-btn").textContent = "一時停止";
             }
-            timerIsRunning = !timerIsRunning;
+            isRunning = !isRunning;
         }
 
         function resetTimer() {
             clearInterval(timerInterval);
-            timerIsRunning = false;
-            timerSecondsLeft = 600;
-            document.getElementById('timer-start-btn').textContent = 'START';
+            isRunning = false;
+            document.getElementById("timer-start-btn").textContent = "スタート";
+            if(timerMode === 'pomodoro') timerSeconds = 25 * 60;
+            if(timerMode === 'timer') timerSeconds = 15 * 60;
             updateTimerDisplay();
         }
 
-        // ーー To Do 機能 ーー
-        function toggleTodoDrawer() {
-            document.getElementById('todo-drawer').classList.toggle('open');
+        // 勉強記録ロジック
+        function renderRecordCalendar() {
+            const container = document.getElementById("record-calendar");
+            container.innerHTML = "";
+            const records = JSON.parse(localStorage.getItem(`study_records_${currentUser.id}`) || "{}");
+            
+            // 簡易的に今月の1日から14日分ほどの綺麗なおしゃれグリッドを表示
+            for(let i = 1; i <= 14; i++) {
+                const time = records[i] ? `${records[i]}分` : "-";
+                container.innerHTML += `
+                    <div class="calendar-cell">
+                        <span class="date-num">6/${i}</span>
+                        <span class="study-time">${time}</span>
+                    </div>
+                `;
+            }
         }
 
-        function addTodo() {
-            const input = document.getElementById('todo-input');
-            const text = input.value.trim();
-            if (!text) return;
-
-            const li = document.createElement('li');
-            li.className = 'todo-item';
-            li.innerHTML = `
-                <div class="todo-item-left">
-                    <input type="checkbox">
-                    <span class="todo-text">${text}</span>
-                </div>
-                <button class="todo-del-btn" onclick="this.parentElement.remove()">✕</button>
-            `;
-            document.getElementById('todo-list').appendChild(li);
-            input.value = '';
+        function saveStudyRecord() {
+            const mins = document.getElementById("study-hours").value;
+            if(!mins) return;
+            const records = JSON.parse(localStorage.getItem(`study_records_${currentUser.id}`) || "{}");
+            // デモとして一律「今日の枠（例：6日）」に保存
+            const todayDate = new Date().getDate();
+            records[todayDate] = mins;
+            localStorage.setItem(`study_records_${currentUser.id}`, JSON.stringify(records));
+            renderRecordCalendar();
+            document.getElementById("study-hours").value = "";
         }
 
-        // ーー 勉強時間（カレンダー）機能 ーー
-        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        // メモロジック (ユーザーごとに分離)
+        function loadMemo() {
+            const savedMemo = localStorage.getItem(`memo_${currentUser.id}`) || "";
+            document.getElementById("memo-textarea").value = savedMemo;
+        }
 
-        function renderCalendar() {
-            const grid = document.getElementById('calendar-grid');
-            grid.innerHTML = '';
+        function saveMemo() {
+            const text = document.getElementById("memo-textarea").value;
+            localStorage.setItem(`memo_${currentUser.id}`, text);
+        }
 
-            document.getElementById('calendar-month-year').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+        // チャットロジック (全員で共有)
+        function loadChat() {
+            const chatMessages = document.getElementById("chat-messages");
+            chatMessages.innerHTML = "";
+            const logs = JSON.parse(localStorage.getItem("global_chat_logs") || "[]");
+            
+            logs.forEach(log => {
+                // 既読数は簡易的に「自分以外のユーザーがいれば1、いなければ0」をシミュレート
+                const readCount = 1; 
+                chatMessages.innerHTML += `
+                    <div class="chat-bubble">
+                        <div class="chat-meta">
+                            <strong>${log.name}</strong>
+                            <span>${log.time} · 既読 ${readCount}</span>
+                        </div>
+                        <div class="chat-text">${log.text}</div>
+                    </div>
+                `;
+            });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
 
-            // 曜日の見出し
-            ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(day => {
-                const dayHeader = document.createElement('div');
-                dayHeader.className = 'weekday';
-                dayHeader.textContent = day;
-                grid.appendChild(dayHeader);
+        function sendChat() {
+            const input = document.getElementById("chat-input");
+            if(!input.value.trim()) return;
+
+            const logs = JSON.parse(localStorage.getItem("global_chat_logs") || "[]");
+            const now = new Date();
+            const timeStr = `${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${now.getMinutes().toString().padStart(2,'0')}`;
+            
+            logs.push({
+                name: currentUser.name,
+                text: input.value,
+                time: timeStr
             });
 
-            const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
-            const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-            // 空白の埋め込み
-            for (let i = 0; i < firstDayIndex; i++) {
-                const emptyCell = document.createElement('div');
-                emptyCell.className = 'day-cell empty';
-                grid.appendChild(emptyCell);
-            }
-
-            // 日付の埋め込み
-            for (let day = 1; day <= totalDays; day++) {
-                const cell = document.createElement('div');
-                cell.className = 'day-cell';
-                
-                const dateKey = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-                
-                cell.innerHTML = `<span class="day-num">${day}</span>`;
-                
-                if (studyLog[dateKey]) {
-                    cell.innerHTML += `<div class="study-time-tag">${studyLog[dateKey]} min</div>`;
-                }
-
-                cell.onclick = () => logStudyTime(dateKey);
-                grid.appendChild(cell);
-            }
-        }
-
-        function changeMonth(direction) {
-            currentMonth += direction;
-            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-            renderCalendar();
-        }
-
-        function logStudyTime(dateKey) {
-            const time = prompt(`${dateKey} の勉強時間を分単位で入力してください:`, studyLog[dateKey] || "");
-            if (time === null) return;
-            
-            if (time === "" || isNaN(time)) {
-                delete studyLog[dateKey];
-            } else {
-                studyLog[dateKey] = parseInt(time, 10);
-            }
-            
-            localStorage.setItem('studyLog', JSON.stringify(studyLog));
-            renderCalendar();
+            localStorage.setItem("global_chat_logs", JSON.stringify(logs));
+            input.value = "";
+            loadChat();
         }
     </script>
 </body>
