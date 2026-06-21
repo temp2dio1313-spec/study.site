@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intellectual Study Space</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Noto+Sans+JP:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f141c;
+            --bg-secondary: #161f2d;
+            --accent-color: #64ffda;
+            --text-primary: #e2e8f0;
+            --text-muted: #8892b0;
+            --border-color: #233554;
+            --font-intellectual: 'Cinzel', serif;
+            --font-mono: 'Roboto Mono', monospace;
+            --font-sans: 'Noto Sans JP', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ーー ヘッダー・ナビゲーション ーー */
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-intellectual);
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: var(--accent-color);
+        }
+
+        nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background-color: rgba(100, 255, 218, 0.05);
+        }
+
+        /* ーー メインコンテンツ ーー */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .view-section {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ーー 学習メニュー：サブモードボタン ーー */
+        .sub-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .sub-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.6rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .sub-btn:hover, .sub-btn.active {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(100, 255, 218, 0.1);
+        }
+
+        /* ーー 各種タイマー・時計の表示エリア ーー */
+        .display-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .mode-panel {
+            display: none;
+        }
+
+        .mode-panel.active {
+            display: block;
+        }
+
+        /* 時計デザイン */
+        .clock-digital {
+            font-family: var(--font-mono);
+            font-size: 4.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            letter-spacing: -2px;
+        }
+        .clock-date {
+            font-family: var(--font-intellectual);
+            color: var(--text-muted);
+            letter-spacing: 4px;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* タイマー共通デザイン */
+        .timer-digits {
+            font-family: var(--font-mono);
+            font-size: 5.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.75rem 2.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            background: rgba(100, 255, 218, 0.1);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            padding: 0.75rem 2.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .btn-secondary:hover {
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+        }
+
+        .pomo-label {
+            font-family: var(--font-intellectual);
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .timer-presets {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .preset-btn {
+            background: rgba(255,255,255,0.05);
+            border: none;
+            color: var(--text-muted);
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            transition: all 0.2s;
+        }
+        .preset-btn:hover {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        /* ーー To Do ドロワー ーー */
+        .todo-toggle-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .todo-toggle-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-primary);
+        }
+
+        .todo-drawer {
+            position: fixed;
+            top: 0;
+            right: -360px;
+            width: 360px;
+            height: 100%;
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border-color);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.5);
+            z-index: 99;
+            transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .todo-drawer.open {
+            right: 0;
+        }
+
+        .todo-header {
+            font-family: var(--font-intellectual);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .todo-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .todo-input-area {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .todo-input {
+            flex: 1;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.6rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        .todo-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        .todo-add-btn {
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.6rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .todo-list {
+            list-style: none;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0.5rem;
+            border-bottom: 1px solid rgba(35, 53, 84, 0.4);
+            animation: fadeIn 0.3s ease;
+        }
+        .todo-item-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .todo-item input[type="checkbox"] {
+            accent-color: var(--accent-color);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .todo-text {
+            font-size: 0.95rem;
+            transition: color 0.3s, text-decoration 0.3s;
+        }
+        .todo-item input[type="checkbox"]:checked + .todo-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+        .todo-del-btn {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        .todo-del-btn:hover { opacity: 1; }
+
+
+        /* ーー 勉強時間（カレンダー） ーー */
+        .calendar-wrapper {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .calendar-title {
+            font-family: var(--font-intellectual);
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            text-align: center;
+        }
+        .weekday {
+            font-family: var(--font-intellectual);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .day-cell {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            padding: 0.4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .day-cell:hover {
+            border-color: var(--border-color);
+            background: rgba(100, 255, 218, 0.03);
+        }
+        .day-cell.empty {
+            background: transparent;
+            cursor: default;
+        }
+        .day-num {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .day-cell:hover .day-num {
+            color: var(--text-primary);
+        }
+        .study-time-tag {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            background: rgba(100, 255, 218, 0.1);
+            padding: 1px 4px;
+            border-radius: 3px;
+            width: 100%;
+            text-align: right;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">STUDY LAB</div>
+        <nav>
+            <button class="nav-btn active" onclick="switchMainView('learning')">学習</button>
+            <button class="nav-btn" onclick="switchMainView('analytics')">勉強時間</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="learning-section" class="view-section active">
+            <div class="sub-nav">
+                <button class="sub-btn active" id="btn-mode-clock" onclick="switchLearningMode('clock')">時計</button>
+                <button class="sub-btn" id="btn-mode-pomo" onclick="switchLearningMode('pomo')">ポモドーロタイマー</button>
+                <button class="sub-btn" id="btn-mode-timer" onclick="switchLearningMode('timer')">タイマー</button>
+            </div>
+
+            <div class="display-container">
+                <div id="panel-clock" class="mode-panel active">
+                    <div class="clock-digital" id="digital-clock">00:00:00</div>
+                    <div class="clock-date" id="date-display">MMM DD, YYYY</div>
+                </div>
+
+                <div id="panel-pomo" class="mode-panel">
+                    <div class="pomo-label" id="pomo-status">FOCUS TIME</div>
+                    <div class="timer-digits" id="pomo-digits">25:00</div>
+                    <div class="timer-presets">
+                        <button class="preset-btn" onclick="setPomoMode(25, 'FOCUS TIME')">25m</button>
+                        <button class="preset-btn" onclick="setPomoMode(5, 'BREAK TIME')">5m</button>
+                    </div>
+                    <div class="timer-controls">
+                        <button class="btn-primary" id="pomo-start-btn" onclick="togglePomo()">START</button>
+                        <button class="btn-secondary" onclick="resetPomo()">RESET</button>
+                    </div>
+                </div>
+
+                <div id="panel-timer" class="mode-panel">
+                    <div class="timer-digits" id="timer-digits">10:00</div>
+                    <div class="timer-presets">
+                        <button class="preset-btn" onclick="adjustTimer(60)">+1m</button>
+                        <button class="preset-btn" onclick="adjustTimer(300)">+5m</button>
+                        <button class="preset-btn" onclick="adjustTimer(600)">+10m</button>
+                        <button class="preset-btn" onclick="adjustTimer(1800)">+30m</button>
+                    </div>
+                    <div class="timer-controls">
+                        <button class="btn-primary" id="timer-start-btn" onclick="toggleTimer()">START</button>
+                        <button class="btn-secondary" onclick="resetTimer()">RESET</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="analytics-section" class="view-section">
+            <div class="calendar-wrapper">
+                <div class="calendar-header">
+                    <button class="btn-secondary" style="padding: 0.4rem 1rem;" onclick="changeMonth(-1)">◀</button>
+                    <div class="calendar-title" id="calendar-month-year">June 2026</div>
+                    <button class="btn-secondary" style="padding: 0.4rem 1rem;" onclick="changeMonth(1)">▶</button>
+                </div>
+                <div class="calendar-grid" id="calendar-grid">
+                    </div>
+            </div>
+        </section>
+    </main>
+
+    <button class="todo-toggle-btn" onclick="toggleTodoDrawer()">To do</button>
+    <div class="todo-drawer" id="todo-drawer">
+        <div class="todo-header">
+            <span>TRACKS</span>
+            <button class="todo-close" onclick="toggleTodoDrawer()">×</button>
+        </div>
+        <div class="todo-input-area">
+            <input type="text" class="todo-input" id="todo-input" placeholder="新しいタスクを追加..." onkeypress="if(event.key==='Enter')addTodo()">
+            <button class="todo-add-btn" onclick="addTodo()">+</button>
+        </div>
+        <ul class="todo-list" id="todo-list">
+            </ul>
+    </div>
+
+    <script>
+        // ーー 状態管理 ーー
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let studyLog = JSON.parse(localStorage.getItem('studyLog')) || {};
+
+        // ーー メインメニュー切り替え ーー
+        function switchMainView(view) {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+            
+            if(view === 'learning') {
+                event.target.classList.add('active');
+                document.getElementById('learning-section').classList.add('active');
+            } else {
+                event.target.classList.add('active');
+                document.getElementById('analytics-section').classList.add('active');
+                renderCalendar();
+            }
+        }
+
+        // ーー 学習サブモード切り替え ーー
+        function switchLearningMode(mode) {
+            document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
+
+            document.getElementById(`btn-mode-${mode}`).classList.add('active');
+            document.getElementById(`panel-${mode}`).classList.add('active');
+        }
+
+        // ーー 1. 時計機能 ーー
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('digital-clock').textContent = `${h}:${m}:${s}`;
+
+            const options = { month: 'short', day: 'numeric', year: 'numeric', weekday: 'short' };
+            document.getElementById('date-display').textContent = now.toLocaleDateString('en-US', options).toUpperCase();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ーー 2. ポモドーロタイマー機能 ーー
+        let pomoInterval;
+        let pomoSecondsLeft = 1500; 
+        let pomoIsRunning = false;
+
+        function updatePomoDisplay() {
+            const min = String(Math.floor(pomoSecondsLeft / 60)).padStart(2, '0');
+            const sec = String(pomoSecondsLeft % 60).padStart(2, '0');
+            document.getElementById('pomo-digits').textContent = `${min}:${sec}`;
+        }
+
+        function setPomoMode(minutes, label) {
+            clearInterval(pomoInterval);
+            pomoIsRunning = false;
+            pomoSecondsLeft = minutes * 60;
+            document.getElementById('pomo-status').textContent = label;
+            document.getElementById('pomo-start-btn').textContent = 'START';
+            updatePomoDisplay();
+        }
+
+        function togglePomo() {
+            if (pomoIsRunning) {
+                clearInterval(pomoInterval);
+                document.getElementById('pomo-start-btn').textContent = 'START';
+            } else {
+                pomoInterval = setInterval(() => {
+                    if (pomoSecondsLeft > 0) {
+                        pomoSecondsLeft--;
+                        updatePomoDisplay();
+                    } else {
+                        clearInterval(pomoInterval);
+                        alert("Time up!");
+                        resetPomo();
+                    }
+                }, 1000);
+                document.getElementById('pomo-start-btn').textContent = 'PAUSE';
+            }
+            pomoIsRunning = !pomoIsRunning;
+        }
+
+        function resetPomo() {
+            clearInterval(pomoInterval);
+            pomoIsRunning = false;
+            pomoSecondsLeft = 1500;
+            document.getElementById('pomo-status').textContent = 'FOCUS TIME';
+            document.getElementById('pomo-start-btn').textContent = 'START';
+            updatePomoDisplay();
+        }
+
+        // ーー 3. 汎用タイマー機能 ーー
+        let timerInterval;
+        let timerSecondsLeft = 600;
+        let timerIsRunning = false;
+
+        function updateTimerDisplay() {
+            const min = String(Math.floor(timerSecondsLeft / 60)).padStart(2, '0');
+            const sec = String(timerSecondsLeft % 60).padStart(2, '0');
+            document.getElementById('timer-digits').textContent = `${min}:${sec}`;
+        }
+
+        function adjustTimer(amount) {
+            timerSecondsLeft += amount;
+            updateTimerDisplay();
+        }
+
+        function toggleTimer() {
+            if (timerIsRunning) {
+                clearInterval(timerInterval);
+                document.getElementById('timer-start-btn').textContent = 'START';
+            } else {
+                timerInterval = setInterval(() => {
+                    if (timerSecondsLeft > 0) {
+                        timerSecondsLeft--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        alert("Timer finished!");
+                        resetTimer();
+                    }
+                }, 1000);
+                document.getElementById('timer-start-btn').textContent = 'PAUSE';
+            }
+            timerIsRunning = !timerIsRunning;
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerIsRunning = false;
+            timerSecondsLeft = 600;
+            document.getElementById('timer-start-btn').textContent = 'START';
+            updateTimerDisplay();
+        }
+
+        // ーー To Do 機能 ーー
+        function toggleTodoDrawer() {
+            document.getElementById('todo-drawer').classList.toggle('open');
+        }
+
+        function addTodo() {
+            const input = document.getElementById('todo-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const li = document.createElement('li');
+            li.className = 'todo-item';
+            li.innerHTML = `
+                <div class="todo-item-left">
+                    <input type="checkbox">
+                    <span class="todo-text">${text}</span>
+                </div>
+                <button class="todo-del-btn" onclick="this.parentElement.remove()">✕</button>
+            `;
+            document.getElementById('todo-list').appendChild(li);
+            input.value = '';
+        }
+
+        // ーー 勉強時間（カレンダー）機能 ーー
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            document.getElementById('calendar-month-year').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+            // 曜日の見出し
+            ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'weekday';
+                dayHeader.textContent = day;
+                grid.appendChild(dayHeader);
+            });
+
+            const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+            const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            // 空白の埋め込み
+            for (let i = 0; i < firstDayIndex; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'day-cell empty';
+                grid.appendChild(emptyCell);
+            }
+
+            // 日付の埋め込み
+            for (let day = 1; day <= totalDays; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'day-cell';
+                
+                const dateKey = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                
+                cell.innerHTML = `<span class="day-num">${day}</span>`;
+                
+                if (studyLog[dateKey]) {
+                    cell.innerHTML += `<div class="study-time-tag">${studyLog[dateKey]} min</div>`;
+                }
+
+                cell.onclick = () => logStudyTime(dateKey);
+                grid.appendChild(cell);
+            }
+        }
+
+        function changeMonth(direction) {
+            currentMonth += direction;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            renderCalendar();
+        }
+
+        function logStudyTime(dateKey) {
+            const time = prompt(`${dateKey} の勉強時間を分単位で入力してください:`, studyLog[dateKey] || "");
+            if (time === null) return;
+            
+            if (time === "" || isNaN(time)) {
+                delete studyLog[dateKey];
+            } else {
+                studyLog[dateKey] = parseInt(time, 10);
+            }
+            
+            localStorage.setItem('studyLog', JSON.stringify(studyLog));
+            renderCalendar();
+        }
+    </script>
+</body>
+</html>
