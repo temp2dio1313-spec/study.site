@@ -16,7 +16,7 @@
             --accent: #7be1df;
             --border: #fce2f0;
             --chat-bg: #fff0f5; 
-            --pencil-line: #d2b48c; /* 鉛筆風の茶色 */
+            --pencil-line: #d2b48c;
         }
 
         * {
@@ -95,10 +95,7 @@
             outline: none;
         }
 
-        /* ログイン画面 */
         #login-screen { max-width: 400px; text-align: center; }
-
-        /* メイン画面 */
         #main-screen, #admin-screen { display: none; }
 
         .header {
@@ -130,11 +127,12 @@
             justify-content: center;
             min-height: 150px;
         }
+        .clickable-card { cursor: pointer; transition: background 0.2s; }
+        .clickable-card:hover { background: #fff0f6; }
 
         #live-clock { font-size: 36px; font-weight: bold; color: var(--primary-dark); }
         #live-date { font-size: 14px; color: var(--text-sub); margin-top: 5px; }
 
-        /* ナビゲーション */
         .nav-buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -148,13 +146,26 @@
             background: linear-gradient(135deg, var(--primary-light), var(--primary)); color: white; border-color: transparent;
         }
 
-        /* タイマーメニュー */
-        .timer-menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        /* ゆったりしたタイマーメニュー配置 */
+        .timer-menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
         .timer-menu-btn {
-            padding: 25px; font-size: 16px; border-radius: 20px; background: #fffdfd; color: var(--text-main); border: 2px solid var(--border); box-shadow: none;
+            padding: 20px;
+            font-size: 16px;
+            border-radius: 20px;
+            background: #fffdfd;
+            color: var(--text-main);
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.01);
+            text-align: center;
         }
 
-        /* 全画面表示用オーバーレイ */
+        /* 全画面表示 */
         .fullscreen-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-color); z-index: 9999; flex-direction: column; justify-content: center; align-items: center; padding: 40px;
         }
@@ -162,11 +173,20 @@
         .fullscreen-display { font-size: 84px; font-weight: bold; color: var(--text-main); margin-bottom: 10px; font-family: monospace; }
         .back-menu-btn { position: absolute; top: 20px; left: 20px; background: #fff; color: var(--text-main); border: 2px solid var(--border); box-shadow: none; }
 
+        /* To doリストエリア */
+        .todo-toggle-btn { margin-top: 20px; background: var(--text-sub); }
+        .todo-overlay-container {
+            display: none; margin-top: 20px; background: white; padding: 15px; border-radius: 20px; border: 2px solid var(--border); width: 100%; max-width: 320px; max-height: 200px; overflow-y: auto;
+        }
+        .todo-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .todo-item input[type="checkbox"] { width: auto; margin-bottom: 0; cursor: pointer; }
+        .todo-item input[type="text"] { margin-bottom: 0; padding: 6px 12px; font-size: 13px; }
+
         /* カレンダー */
         .calendar-section { background: #fffcfd; border: 2px solid var(--border); border-radius: 24px; padding: 20px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 15px; }
         .cal-cell {
-            border: 2px solid var(--border); border-radius: 12px; padding: 8px; min-height: 80px; background: #fff; cursor: pointer; transition: background 0.2s; text-align: left;
+            border: 2px solid var(--border); border-radius: 12px; padding: 8px; min-height: 85px; background: #fff; cursor: pointer; transition: background 0.2s; text-align: left;
         }
         .cal-cell:hover { background: #fff5fa; }
         .cal-cell.has-data { background: #fff0f6; border-color: var(--primary-light); }
@@ -174,13 +194,13 @@
         .cal-cell .study-time { font-size: 11px; color: var(--primary-dark); font-weight: bold; margin-top: 4px; display: block; }
         .cal-cell .global-event { font-size: 10px; background: var(--accent); color: white; padding: 1px 4px; border-radius: 4px; margin-top: 2px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        /* 日記のノート線デザイン */
+        /* 日記ノート線 */
         .diary-wrapper { width: 100%; max-width: 600px; background: #fff; padding: 20px; border-radius: 20px; border: 2px solid var(--border); }
         .diary-textarea {
             height: 300px; resize: none; font-size: 16px; line-height: 30px; padding: 0 10px; border: none; background: linear-gradient(to bottom, transparent 29px, var(--pencil-line) 29px); background-size: 100% 30px; attachment: local; border-radius: 0; margin-bottom: 15px;
         }
 
-        /* パステルLINE風チャット */
+        /* チャット */
         .chat-container { width: 100%; max-width: 600px; height: 75%; display: flex; flex-direction: column; background: var(--chat-bg); border-radius: 24px; overflow: hidden; border: 2px solid var(--border); }
         .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
         .msg-row { display: flex; width: 100%; align-items: flex-end; }
@@ -199,14 +219,14 @@
         .chat-input-bar { display: flex; padding: 12px; background: #fff; gap: 10px; width: 100%; max-width: 600px; border-radius: 0 0 24px 24px; border: 2px solid var(--border); border-top: none; }
         .chat-input-bar input { margin-bottom: 0; }
 
-        /* モーダルポップアップ */
+        /* モーダル */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 10005; justify-content: center; align-items: center; }
         .modal-content { background: #fff; padding: 25px; border-radius: 24px; width: 90%; max-width: 400px; border: 3px solid var(--primary-light); }
 
-        /* 管理者用 */
+        /* 管理者 */
         .admin-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-top: 20px; }
         .admin-menu-list { display: flex; flex-direction: column; gap: 10px; }
-        .admin-view-area { background: #fffcfd; border: 2px solid var(--border); border-radius: 20px; padding: 20px; min-height: 300px; }
+        .admin-view-area { background: #fffcfd; border: 2px solid var(--border); border-radius: 20px; padding: 20px; min-height: 350px; }
         .chat-manage-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid var(--border); font-size: 13px; }
     </style>
 </head>
@@ -231,9 +251,10 @@
                 <div id="live-clock">00:00:00</div>
                 <div id="live-date">2026年06月21日(日)</div>
             </div>
-            <div class="dashboard-card">
-                <div style="font-size:14px; font-weight:bold; margin-bottom:5px;">ミニカレンダー</div>
-                <div id="mini-date-view" style="font-size:13px; color:var(--text-sub);"></div>
+            <div class="dashboard-card clickable-card" onclick="switchSection('record')">
+                <div style="font-size:14px; font-weight:bold; margin-bottom:5px; color:var(--primary-dark);">ミニカレンダー</div>
+                <div id="mini-date-view" style="font-size:13px; color:var(--text-sub); text-align:center;"></div>
+                <div style="font-size:10px; color:var(--text-sub); margin-top:8px;">クリックで大きく開く</div>
             </div>
         </div>
 
@@ -245,7 +266,7 @@
         </div>
 
         <div id="section-timer" style="display:none;">
-            <div class="timer-menu-grid">
+            <div class="timer-menu-list">
                 <button class="timer-menu-btn" onclick="openFullscreen('clock')">時計</button>
                 <button class="timer-menu-btn" onclick="openFullscreen('pomodoro')">ポモドーロタイマー</button>
                 <button class="timer-menu-btn" onclick="openFullscreen('custom')">タイマー</button>
@@ -254,8 +275,7 @@
         </div>
 
         <div id="section-record" style="display:none;" class="calendar-section">
-            <h3>勉強記録カレンダー</h3>
-            <p style="font-size:12px; color:var(--text-sub); margin-bottom:10px;">日付を選択すると、その日の記録や編集・削除ができます</p>
+            <h3>勉強記録・予定管理カレンダー</h3>
             <div class="calendar-grid" id="main-calendar-grid"></div>
         </div>
     </div>
@@ -271,8 +291,7 @@
                 <button onclick="switchAdminMenu('chat-manage')">チャット管理</button>
                 <button onclick="switchAdminMenu('schedule-manage')">予定作成</button>
             </div>
-            <div class="admin-view-area" id="admin-view-content">
-                </div>
+            <div class="admin-view-area" id="admin-view-content"></div>
         </div>
     </div>
 
@@ -285,11 +304,19 @@
             <button onclick="setCustomTime()">セット</button>
         </div>
         <div class="fullscreen-display" id="overlay-display">00:00</div>
-        <div id="pomo-status" style="display:none; margin-bottom:10px; font-weight:bold; color:var(--text-sub);">集中時間</div>
+        <div id="pomo-status" style="display:none; margin-bottom:10px; font-weight:bold; color:var(--text-sub);"></div>
+        
         <div id="timer-controls">
             <button id="timer-start-btn" onclick="toggleTimer()">スタート</button>
             <button onclick="resetTimer()">リセット</button>
             <button id="timer-save-btn" onclick="logTimerToRecord()" style="background:var(--accent); display:none;">この時間を記録</button>
+        </div>
+
+        <button id="todo-toggle" class="todo-toggle-btn" onclick="toggleTodoDisplay()">To do</button>
+        <div id="todo-box" class="todo-overlay-container">
+            <div class="todo-item"><input type="checkbox" id="td-c1"><input type="text" id="td-t1" placeholder="タスク 1"></div>
+            <div class="todo-item"><input type="checkbox" id="td-c2"><input type="text" id="td-t2" placeholder="タスク 2"></div>
+            <div class="todo-item"><input type="checkbox" id="td-c3"><input type="text" id="td-t3" placeholder="タスク 3"></div>
         </div>
     </div>
 
@@ -320,17 +347,23 @@
     <div id="record-modal" class="modal">
         <div class="modal-content">
             <h3 id="modal-date-title">00日</h3>
-            <input type="number" id="modal-study-time" placeholder="勉強時間 (分)" min="0">
-            <div style="display:flex; gap:10px; margin-top:10px;">
+            <div style="margin-bottom:10px;">
+                <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:4px;">勉強時間記録 (分)</label>
+                <input type="number" id="modal-study-time" placeholder="勉強時間 (分)" min="0">
+            </div>
+            <div style="margin-bottom:10px;">
+                <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:4px;">共通の予定 (編集・削除可)</label>
+                <input type="text" id="modal-schedule-text" placeholder="予定内容">
+            </div>
+            <div style="display:flex; gap:10px; margin-top:15px;">
                 <button onclick="saveCellRecord()" style="flex:1;">保存</button>
-                <button onclick="deleteCellRecord()" style="background:var(--text-sub); flex:1;">削除</button>
+                <button onclick="deleteCellRecord()" style="background:var(--text-sub); flex:1;">データ削除</button>
             </div>
             <button onclick="closeModal()" style="background:none; color:var(--text-sub); width:100%; margin-top:15px; box-shadow:none;">閉じる</button>
         </div>
     </div>
 
     <script>
-        // 固定ユーザーデータ
         const users = {
             "takuma": { pass: "1111", name: "柿原 拓真" },
             "yuzuki": { pass: "0925", name: "新里 結月" },
@@ -340,7 +373,6 @@
         let currentUser = null;
         let selectedDateNum = 1;
 
-        // ログイン
         function login() {
             const id = document.getElementById("username").value;
             const pass = document.getElementById("password").value;
@@ -390,13 +422,19 @@
             renderCalendar();
         }
 
-        // セクション・全画面切り替え
         function switchSection(sec) {
             document.getElementById("section-timer").style.display = sec === 'timer' ? 'block' : 'none';
             document.getElementById("section-record").style.display = sec === 'record' ? 'block' : 'none';
             
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            
+            // ナビゲーションアクティブ調整
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => {
+                if(btn.textContent.includes(sec === 'timer' ? 'タイマー' : sec === 'record' ? '記録' : sec === 'diary' ? '日記' : 'チャット')) {
+                    btn.classList.add('active');
+                }
+            });
 
             if (sec === 'diary') {
                 const todayStr = new Date().toISOString().split('T')[0];
@@ -418,21 +456,29 @@
             const setup = document.getElementById("custom-setup-area");
             const pomo = document.getElementById("pomo-status");
             const saveBtn = document.getElementById("timer-save-btn");
+            const todoBtn = document.getElementById("todo-toggle");
+            const todoBox = document.getElementById("todo-box");
 
             overlay.style.display = "flex";
             setup.style.display = "none";
             pomo.style.display = "none";
             saveBtn.style.display = "block";
+            todoBtn.style.display = "block";
+            todoBox.style.display = "none";
             document.getElementById("timer-controls").style.display = "block";
             
             clearInterval(timerInterval);
             isRunning = false;
             document.getElementById("timer-start-btn").textContent = "スタート";
 
+            // To do内容の個人ロード
+            loadTodoItems();
+
             if (mode === 'clock') {
                 title.textContent = "時計";
                 document.getElementById("timer-controls").style.display = "none";
                 saveBtn.style.display = "none";
+                todoBtn.style.display = "none";
                 display.textContent = new Date().toTimeString().split(' ')[0];
             } else if (mode === 'pomodoro') {
                 title.textContent = "ポモドーロタイマー";
@@ -457,13 +503,36 @@
 
         function closeFullscreen() {
             clearInterval(timerInterval);
+            if(currentMode && currentMode !== 'clock') saveTodoItems(); // 閉じる時にTodo保存
             document.getElementById("timer-overlay").style.display = "none";
             document.getElementById("diary-overlay").style.display = "none";
             document.getElementById("chat-overlay").style.display = "none";
             currentMode = '';
         }
 
-        // タイマーコアロジック
+        // To do表示トグル
+        function toggleTodoDisplay() {
+            const box = document.getElementById("todo-box");
+            box.style.display = box.style.display === "none" ? "block" : "none";
+        }
+
+        function saveTodoItems() {
+            const todoData = {
+                c1: document.getElementById("td-c1").checked, t1: document.getElementById("td-t1").value,
+                c2: document.getElementById("td-c2").checked, t2: document.getElementById("td-t2").value,
+                c3: document.getElementById("td-c3").checked, t3: document.getElementById("td-t3").value
+            };
+            localStorage.setItem(`todo_${currentUser.id}`, JSON.stringify(todoData));
+        }
+
+        function loadTodoItems() {
+            const data = JSON.parse(localStorage.getItem(`todo_${currentUser.id}`) || '{"c1":false,"t1":"","c2":false,"t2":"","c3":false,"t3":""}');
+            document.getElementById("td-c1").checked = data.c1; document.getElementById("td-t1").value = data.t1;
+            document.getElementById("td-c2").checked = data.c2; document.getElementById("td-t2").value = data.t2;
+            document.getElementById("td-c3").checked = data.c3; document.getElementById("td-t3").value = data.t3;
+        }
+
+        // タイマーコア
         let timerInterval = null;
         let timerSeconds = 0;
         let elapsedSeconds = 0;
@@ -556,12 +625,12 @@
             const today = new Date().getDate();
             records[today] = (records[today] ? parseInt(records[today]) : 0) + mins;
             localStorage.setItem(`study_records_${currentUser.id}`, JSON.stringify(records));
-            alert(`${mins}分間の勉強を本日の日付に記録しました。`);
+            alert(`${mins}分間の勉強を記録しました。`);
             resetTimer();
             renderCalendar();
         }
 
-        // カレンダー生成・管理 (一般ユーザー専用)
+        // カレンダー生成・管理
         function renderCalendar() {
             const grid = document.getElementById("main-calendar-grid");
             grid.innerHTML = "";
@@ -585,9 +654,12 @@
 
         function openCellModal(day) {
             selectedDateNum = day;
-            document.getElementById("modal-date-title").textContent = `${day}日の勉強記録`;
+            document.getElementById("modal-date-title").textContent = `${day}日の編集・予定管理`;
             const records = JSON.parse(localStorage.getItem(`study_records_${currentUser.id}`) || "{}");
+            const schedules = JSON.parse(localStorage.getItem("global_schedules") || "{}");
+            
             document.getElementById("modal-study-time").value = records[day] || "";
+            document.getElementById("modal-schedule-text").value = schedules[day] || "";
             document.getElementById("record-modal").style.display = "flex";
         }
 
@@ -595,21 +667,36 @@
 
         function saveCellRecord() {
             const val = document.getElementById("modal-study-time").value;
+            const sched = document.getElementById("modal-schedule-text").value;
+            
             const records = JSON.parse(localStorage.getItem(`study_records_${currentUser.id}`) || "{}");
-            if (val > 0) {
-                records[selectedDateNum] = val;
-            } else {
-                delete records[selectedDateNum];
-            }
+            const schedules = JSON.parse(localStorage.getItem("global_schedules") || "{}");
+
+            // 勉強時間
+            if (val > 0) records[selectedDateNum] = val;
+            else delete records[selectedDateNum];
+
+            // 共通予定
+            if (sched.trim()) schedules[selectedDateNum] = sched;
+            else delete schedules[selectedDateNum];
+
             localStorage.setItem(`study_records_${currentUser.id}`, JSON.stringify(records));
+            localStorage.setItem("global_schedules", JSON.stringify(schedules));
+            
             closeModal();
             renderCalendar();
         }
 
         function deleteCellRecord() {
             const records = JSON.parse(localStorage.getItem(`study_records_${currentUser.id}`) || "{}");
+            const schedules = JSON.parse(localStorage.getItem("global_schedules") || "{}");
+            
             delete records[selectedDateNum];
+            delete schedules[selectedDateNum];
+            
             localStorage.setItem(`study_records_${currentUser.id}`, JSON.stringify(records));
+            localStorage.setItem("global_schedules", JSON.stringify(schedules));
+            
             closeModal();
             renderCalendar();
         }
@@ -673,20 +760,20 @@
             loadChat();
         }
 
-        // 👑 管理者画面ロジック 👑
+        // 👑 管理者
         function switchAdminMenu(menu) {
             const view = document.getElementById("admin-view-content");
             view.innerHTML = "";
 
             if (menu === 'user-info') {
                 view.innerHTML = `
-                    <h3>ユーザ情報閲覧</h3>
+                    <h3>ユーザ情報閲覧 (日記対応)</h3>
                     <select id="admin-user-select" onchange="viewUserData()">
                         <option value="">選択してください</option>
                         <option value="takuma">柿原 拓真</option>
                         <option value="yuzuki">新里 結月</option>
                     </select>
-                    <div id="admin-user-result" style="margin-top:15px; font-size:14px; white-space:pre-wrap;"></div>
+                    <div id="admin-user-result" style="margin-top:15px; font-size:14px; white-space:pre-wrap; max-height:250px; overflow-y:auto; border:1px dashed var(--border); padding:10px; background:#fff;"></div>
                 `;
             } else if (menu === 'chat-manage') {
                 view.innerHTML = `
@@ -708,7 +795,6 @@
             }
         }
 
-        // 管理者：ユーザデータ確認
         function viewUserData() {
             const uid = document.getElementById("admin-user-select").value;
             const res = document.getElementById("admin-user-result");
@@ -722,15 +808,14 @@
                 if(records[i]) text += `${i}日: ${records[i]}分\n`;
             }
 
-            text += `\n【日記記録】\n`;
+            text += `\n【日記内容】\n`;
             Object.keys(diary).forEach(date => {
-                if(diary[date]) text += `[${date}]: ${diary[date]}\n`;
+                if(diary[date].trim()) text += `[日付: ${date}]\n${diary[date]}\n------------------\n`;
             });
 
             res.textContent = text;
         }
 
-        // 管理者：チャット管理
         function renderAdminChatList() {
             const list = document.getElementById("admin-chat-list");
             list.innerHTML = "<h4>メッセージ一覧 (クリックで削除)</h4>";
@@ -770,7 +855,6 @@
             renderAdminChatList();
         }
 
-        // 管理者：共通予定管理
         function renderAdminScheduleList() {
             const list = document.getElementById("admin-sched-list");
             list.innerHTML = "<h4>現在の共通予定</h4>";
@@ -789,11 +873,9 @@
             if(!day || day < 1 || day > 30) { alert("正しい日付(1〜30)を入力してください"); return; }
 
             const schedules = JSON.parse(localStorage.getItem("global_schedules") || "{}");
-            if(text.trim()) {
-                schedules[day] = text;
-            } else {
-                delete schedules[day];
-            }
+            if(text.trim()) schedules[day] = text;
+            else delete schedules[day];
+
             localStorage.setItem("global_schedules", JSON.stringify(schedules));
             document.getElementById("admin-sched-day").value = "";
             document.getElementById("admin-sched-text").value = "";
