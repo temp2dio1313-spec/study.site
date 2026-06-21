@@ -24,7 +24,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Helvetica Neue', Arial, 'Hiragino Maru Gothic ProN', sans-serif;
-            -webkit-tap-highlight-color: transparent; /* スマホのタップ時青背景を消す */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -110,7 +110,6 @@
 
         .user-welcome { font-size: 16px; font-weight: bold; color: var(--primary-dark); }
 
-        /* PC等での基本は2列並び */
         .dashboard-top {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -135,7 +134,6 @@
         #live-clock { font-size: 32px; font-weight: bold; color: var(--primary-dark); }
         #live-date { font-size: 13px; color: var(--text-sub); margin-top: 5px; }
 
-        /* ナビゲーションの初期値 */
         .nav-buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -175,18 +173,23 @@
         .fullscreen-display { font-size: 72px; font-weight: bold; color: var(--text-main); margin-bottom: 10px; font-family: monospace; }
         .back-menu-btn { position: absolute; top: 15px; left: 15px; background: #fff; color: var(--text-main); border: 2px solid var(--border); box-shadow: none; padding: 8px 16px; font-size: 14px; }
 
-        /* To doリスト */
+        /* To doリスト・打ち消し線 */
         .todo-toggle-btn { margin-top: 15px; background: var(--text-sub); padding: 10px 20px; font-size: 14px; }
         .todo-overlay-container {
-            display: none; margin-top: 15px; background: white; padding: 15px; border-radius: 20px; border: 2px solid var(--border); width: 100%; max-width: 320px; max-height: 180px; overflow-y: auto;
+            display: none; margin-top: 15px; background: white; padding: 15px; border-radius: 20px; border: 2px solid var(--border); width: 100%; max-width: 340px; max-height: 230px; overflow-y: auto;
         }
         .todo-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-        .todo-item input[type="checkbox"] { width: auto; margin-bottom: 0; cursor: pointer; }
-        .todo-item input[type="text"] { margin-bottom: 0; padding: 6px 12px; font-size: 13px; }
+        .todo-item input[type="checkbox"] { width: auto; margin-bottom: 0; cursor: pointer; transform: scale(1.2); }
+        .todo-item input[type="text"] { margin-bottom: 0; padding: 6px 12px; font-size: 13px; transition: all 0.2s; }
+        .todo-item.completed input[type="text"] { text-decoration: line-through; text-decoration-color: var(--primary); color: var(--text-sub); opacity: 0.7; }
+        .todo-add-btn { background: none; color: var(--primary-dark); border: 2px dashed var(--primary-light); box-shadow: none; padding: 6px; width: 100%; font-size: 12px; border-radius: 12px; margin-top: 5px; }
 
-        /* カレンダー設定 */
+        /* カレンダーヘッダー(月切り替え) */
         .calendar-section { background: #fffcfd; border: 2px solid var(--border); border-radius: 24px; padding: 15px; }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 15px; }
+        .calendar-month-control { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .month-btn { background: #fff; color: var(--primary-dark); border: 2px solid var(--border); padding: 6px 14px; font-size: 14px; box-shadow: none; }
+        .month-title-display { font-size: 16px; font-weight: bold; color: var(--primary-dark); }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 10px; }
         .cal-cell {
             border: 2px solid var(--border); border-radius: 12px; padding: 6px; min-height: 80px; background: #fff; cursor: pointer; transition: background 0.2s; text-align: left;
         }
@@ -196,7 +199,9 @@
         .cal-cell .study-time { font-size: 11px; color: var(--primary-dark); font-weight: bold; margin-top: 2px; display: block; }
         .cal-cell .global-event { font-size: 10px; background: var(--accent); color: white; padding: 1px 4px; border-radius: 4px; margin-top: 2px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        /* 日記 */
+        /* 日記スライダーの調整 */
+        .diary-nav-bar { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 12px; width: 100%; max-width: 600px; }
+        .diary-arrow-btn { background: #fff; color: var(--primary-dark); border: 2px solid var(--border); font-size: 16px; padding: 6px 16px; box-shadow: none; border-radius: 15px; }
         .diary-wrapper { width: 100%; max-width: 600px; background: #fff; padding: 15px; border-radius: 20px; border: 2px solid var(--border); }
         .diary-textarea {
             height: 260px; resize: none; font-size: 15px; line-height: 30px; padding: 0 5px; border: none; background: linear-gradient(to bottom, transparent 29px, var(--pencil-line) 29px); background-size: 100% 30px; attachment: local; border-radius: 0; margin-bottom: 10px;
@@ -209,18 +214,13 @@
         .msg-row.left { justify-content: flex-start; }
         .msg-row.right { justify-content: flex-end; }
         .msg-wrapper { display: flex; flex-direction: column; max-width: 80%; }
-        .msg-row.left .msg-wrapper { align-items: flex-start; }
-        .msg-row.right .msg-wrapper { align-items: flex-end; }
-        .msg-name { font-size: 11px; color: var(--text-sub); margin-bottom: 2px; padding-left: 4px; }
-        .bubble-box { display: flex; align-items: flex-end; gap: 6px; }
         .chat-bubble { padding: 9px 13px; border-radius: 16px; font-size: 14px; word-break: break-all; line-height: 1.4; }
         .msg-row.left .chat-bubble { background: #ffffff; color: var(--text-main); border-top-left-radius: 4px; }
         .msg-row.right .chat-bubble { background: var(--primary-light); color: white; border-top-right-radius: 4px; }
         .msg-meta { font-size: 9px; color: var(--text-sub); display: flex; flex-direction: column; min-width: 30px; }
         .msg-row.right .msg-meta { text-align: right; }
         .chat-input-bar { display: flex; padding: 10px; background: #fff; gap: 8px; width: 100%; max-width: 600px; border-radius: 0 0 24px 24px; border: 2px solid var(--border); border-top: none; }
-        .chat-input-bar input { margin-bottom: 0; padding: 10px; font-size: 14px; }
-        .chat-input-bar button { padding: 10px 18px; font-size: 14px; }
+        .chat-input-bar input { margin-bottom: 0; }
 
         /* モーダル */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 10005; justify-content: center; align-items: center; padding: 15px; }
@@ -230,37 +230,25 @@
         .admin-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 15px; margin-top: 15px; }
         .admin-menu-list { display: flex; flex-direction: column; gap: 8px; }
         .admin-view-area { background: #fffcfd; border: 2px solid var(--border); border-radius: 20px; padding: 15px; min-height: 350px; }
-        .chat-manage-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid var(--border); font-size: 13px; gap: 5px; }
 
-        /* 📱 スマートフォン（画面幅 600px 以下）用の調整レイアウト */
         @media (max-width: 600px) {
             body { padding: 10px; }
             .container { padding: 20px 15px; border-radius: 24px; }
-            
-            /* 上部ダッシュボードを縦並びにしてスッキリ */
             .dashboard-top { grid-template-columns: 1fr; gap: 12px; }
             .dashboard-card { min-height: 100px; padding: 15px; }
             #live-clock { font-size: 28px; }
-
-            /* ナビゲーションを2列×2行にして押しやすく */
             .nav-buttons { grid-template-columns: 1fr 1fr; gap: 8px; }
             .nav-btn { padding: 14px 10px; font-size: 14px; border-radius: 15px; }
-
-            /* カレンダーが潰れないように高さをコンパクト化 */
             .calendar-section { padding: 10px; border-radius: 18px; }
             .calendar-grid { gap: 4px; }
             .cal-cell { min-height: 55px; padding: 4px; border-radius: 8px; }
             .cal-cell .date-num { font-size: 11px; }
             .cal-cell .study-time { font-size: 10px; margin-top: 1px; }
             .cal-cell .global-event { font-size: 8px; padding: 0px 2px; margin-top: 1px; }
-
-            /* タイマー文字サイズをスマホサイズに */
             .fullscreen-display { font-size: 56px; }
-
-            /* 管理者画面のレイアウトを縦並びに */
             .admin-grid { grid-template-columns: 1fr; }
             .admin-menu-list { flex-direction: row; flex-wrap: wrap; }
-            .admin-menu-list button { flex: 1; padding: 10px; font-size: 13px; text-align: center; }
+            .admin-menu-list button { flex: 1; padding: 10px; font-size: 13px; }
         }
     </style>
 </head>
@@ -309,7 +297,11 @@
         </div>
 
         <div id="section-record" style="display:none;" class="calendar-section">
-            <h3>勉強記録・予定管理カレンダー</h3>
+            <div class="calendar-month-control">
+                <button class="month-btn" onclick="changeMonth(-1)">◀ 前の月</button>
+                <div class="month-title-display" id="calendar-month-title">2026年 6月</div>
+                <button class="month-btn" onclick="changeMonth(1)">次の月 ▶</button>
+            </div>
             <div class="calendar-grid" id="main-calendar-grid"></div>
         </div>
     </div>
@@ -346,20 +338,23 @@
             <button id="timer-save-btn" onclick="logTimerToRecord()" style="background:var(--accent); display:none;">記録する</button>
         </div>
 
-        <button id="todo-toggle" class="todo-toggle-btn" onclick="toggleTodoDisplay()">To do</button>
+        <button id="todo-toggle" class="todo-toggle-btn" onclick="toggleTodoDisplay()">To doリスト</button>
         <div id="todo-box" class="todo-overlay-container">
-            <div class="todo-item"><input type="checkbox" id="td-c1"><input type="text" id="td-t1" placeholder="タスク 1"></div>
-            <div class="todo-item"><input type="checkbox" id="td-c2"><input type="text" id="td-t2" placeholder="タスク 2"></div>
-            <div class="todo-item"><input type="checkbox" id="td-c3"><input type="text" id="td-t3" placeholder="タスク 3"></div>
+            <div id="todo-items-list"></div>
+            <button class="todo-add-btn" onclick="addNewTodoItem()">＋ タスクを追加</button>
         </div>
     </div>
 
     <div id="diary-overlay" class="fullscreen-overlay">
         <button class="back-menu-btn" onclick="closeFullscreen()">もどる</button>
         <div class="fullscreen-title">日記</div>
-        <div style="margin-bottom:12px;">
-            <input type="date" id="diary-date-select" onchange="loadDiary()" style="width:180px; margin-bottom:0; padding:8px 12px;">
+        
+        <div class="diary-nav-bar">
+            <button class="diary-arrow-btn" onclick="moveDiaryDate(-1)">◀</button>
+            <input type="date" id="diary-date-select" onchange="loadDiary()" style="width:160px; margin-bottom:0; padding:8px; text-align:center;">
+            <button class="diary-arrow-btn" onclick="moveDiaryDate(1)">▶</button>
         </div>
+
         <div class="diary-wrapper">
             <textarea id="diary-textarea" class="diary-textarea" placeholder="今日の日記を書きましょう" oninput="saveDiary()"></textarea>
         </div>
@@ -386,12 +381,12 @@
                 <input type="number" id="modal-study-time" placeholder="時間 (分)" min="0">
             </div>
             <div style="margin-bottom:12px;">
-                <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:4px;">共通の予定 (編集・削除可)</label>
+                <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:4px;">共通の予定</label>
                 <input type="text" id="modal-schedule-text" placeholder="予定内容">
             </div>
             <div style="display:flex; gap:10px; margin-top:15px;">
                 <button onclick="saveCellRecord()" style="flex:1;">保存</button>
-                <button onclick="deleteCellRecord()" style="background:var(--text-sub); flex:1;">データ削除</button>
+                <button onclick="deleteCellRecord()" style="background:var(--text-sub); flex:1;">削除</button>
             </div>
             <button onclick="closeModal()" style="background:none; color:var(--text-sub); width:100%; margin-top:12px; box-shadow:none;">閉じる</button>
         </div>
@@ -406,6 +401,10 @@
 
         let currentUser = null;
         let selectedDateNum = 1;
+        
+        // カレンダー用の現在の年・月状態
+        let currentYear = 2026;
+        let currentMonth = 5; // 0始まり (5 = 6月)
 
         function login() {
             const id = document.getElementById("username").value;
@@ -423,6 +422,11 @@
                 } else {
                     document.getElementById("main-screen").style.display = "block";
                     document.getElementById("user-display-name").textContent = currentUser.name;
+                    
+                    const today = new Date();
+                    currentYear = today.getFullYear();
+                    currentMonth = today.getMonth();
+
                     initDashboard();
                     switchSection('timer');
                 }
@@ -542,26 +546,63 @@
             currentMode = '';
         }
 
+        /* 📝 動的To doリスト管理コア */
+        let currentTodoList = [];
+
         function toggleTodoDisplay() {
             const box = document.getElementById("todo-box");
             box.style.display = box.style.display === "none" ? "block" : "none";
         }
 
-        function saveTodoItems() {
-            const todoData = {
-                c1: document.getElementById("td-c1").checked, t1: document.getElementById("td-t1").value,
-                c2: document.getElementById("td-c2").checked, t2: document.getElementById("td-t2").value,
-                c3: document.getElementById("td-c3").checked, t3: document.getElementById("td-t3").value
-            };
-            localStorage.setItem(`todo_${currentUser.id}`, JSON.stringify(todoData));
+        function loadTodoItems() {
+            const defaultTodo = [{checked: false, text: ""}];
+            currentTodoList = JSON.parse(localStorage.getItem(`todo_v2_${currentUser.id}`) || JSON.stringify(defaultTodo));
+            renderTodoHTML();
         }
 
-        function loadTodoItems() {
-            const data = JSON.parse(localStorage.getItem(`todo_${currentUser.id}`) || '{"c1":false,"t1":"","c2":false,"t2":"","c3":false,"t3":""}');
-            document.getElementById("td-c1").checked = data.c1; document.getElementById("td-t1").value = data.t1;
-            document.getElementById("td-c2").checked = data.c2; document.getElementById("td-t2").value = data.t2;
-            document.getElementById("td-c3").checked = data.c3; document.getElementById("td-t3").value = data.t3;
+        function saveTodoItems() {
+            // 現在の入力値を配列に同期
+            const items = document.querySelectorAll('.todo-item');
+            currentTodoList = [];
+            items.forEach(item => {
+                const checked = item.querySelector('.todo-chk').checked;
+                const text = item.querySelector('.todo-txt').value;
+                currentTodoList.push({ checked, text });
+            });
+            localStorage.setItem(`todo_v2_${currentUser.id}`, JSON.stringify(currentTodoList));
         }
+
+        function renderTodoHTML() {
+            const container = document.getElementById("todo-items-list");
+            container.innerHTML = "";
+            currentTodoList.forEach((item, idx) => {
+                const compClass = item.checked ? "completed" : "";
+                container.innerHTML += `
+                    <div class="todo-item ${compClass}" id="todo-item-${idx}">
+                        <input type="checkbox" class="todo-chk" onchange="toggleTodoItemStyle(${idx})" ${item.checked ? 'checked' : ''}>
+                        <input type="text" class="todo-txt" placeholder="タスクを入力" value="${item.text || ''}" oninput="saveTodoItems()">
+                    </div>
+                `;
+            });
+        }
+
+        function addNewTodoItem() {
+            saveTodoItems(); // 直前の入力を確保
+            currentTodoList.push({ checked: false, text: "" });
+            renderTodoHTML();
+        }
+
+        function toggleTodoItemStyle(idx) {
+            const itemEl = document.getElementById(`todo-item-${idx}`);
+            const isChecked = itemEl.querySelector('.todo-chk').checked;
+            if(isChecked) {
+                itemEl.classList.add('completed');
+            } else {
+                itemEl.classList.remove('completed');
+            }
+            saveTodoItems();
+        }
+
 
         // タイマー
         let timerInterval = null;
@@ -652,23 +693,48 @@
 
         function logTimerToRecord() {
             const mins = Math.max(1, Math.floor(elapsedSeconds / 60));
-            const records = JSON.parse(localStorage.getItem(`study_records_${currentUser.id}`) || "{}");
-            const today = new Date().getDate();
-            records[today] = (records[today] ? parseInt(records[today]) : 0) + mins;
-            localStorage.setItem(`study_records_${currentUser.id}`, JSON.stringify(records));
-            alert(`${mins}分間を本日の日付に記録しました。`);
+            const storageKey = `records_${currentYear}_${currentMonth+1}_${currentUser.id}`;
+            const records = JSON.parse(localStorage.getItem(storageKey) || "{}");
+            const todayDay = new Date().getDate();
+            
+            records[todayDay] = (records[todayDay] ? parseInt(records[todayDay]) : 0) + mins;
+            localStorage.setItem(storageKey, JSON.stringify(records));
+            alert(`${mins}分間を記録しました！`);
             resetTimer();
             renderCalendar();
         }
 
-        // カレンダー
+
+        /* 📅 カレンダー切り替えロジック */
+        function changeMonth(diff) {
+            currentMonth += diff;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear += 1;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear -= 1;
+            }
+            renderCalendar();
+        }
+
         function renderCalendar() {
+            document.getElementById("calendar-month-title").textContent = `${currentYear}年 ${currentMonth + 1}月`;
+            
             const grid = document.getElementById("main-calendar-grid");
             grid.innerHTML = "";
-            const records = JSON.parse(localStorage.getItem(`study_records_${currentUser.id}`) || "{}");
-            const schedules = JSON.parse(localStorage.getItem("global_schedules") || "{}");
 
-            for (let i = 1; i <= 30; i++) {
+            // 該当月のキーを生成してデータを取得
+            const storageKey = `records_${currentYear}_${currentMonth+1}_${currentUser.id}`;
+            const records = JSON.parse(localStorage.getItem(storageKey) || "{}");
+            
+            const scheduleKey = `global_schedules_${currentYear}_${currentMonth+1}`;
+            const schedules = JSON.parse(localStorage.getItem(scheduleKey) || "{}");
+
+            // 月の最終日を計算
+            const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            for (let i = 1; i <= lastDay; i++) {
                 const time = records[i] ? `${records[i]}分` : "";
                 const hasData = records[i] ? "has-data" : "";
                 const schedule = schedules[i] ? `<span class="global-event">${schedules[i]}</span>` : "";
@@ -685,9 +751,13 @@
 
         function openCellModal(day) {
             selectedDateNum = day;
-            document.getElementById("modal-date-title").textContent = `${day}日の編集・予定管理`;
-            const records = JSON.parse(localStorage.getItem(`study_records_${currentUser.id}`) || "{}");
-            const schedules = JSON.parse(localStorage.getItem("global_schedules") || "{}");
+            document.getElementById("modal-date-title").textContent = `${currentMonth+1}月 ${day}日の編集`;
+            
+            const storageKey = `records_${currentYear}_${currentMonth+1}_${currentUser.id}`;
+            const records = JSON.parse(localStorage.getItem(storageKey) || "{}");
+            
+            const scheduleKey = `global_schedules_${currentYear}_${currentMonth+1}`;
+            const schedules = JSON.parse(localStorage.getItem(scheduleKey) || "{}");
             
             document.getElementById("modal-study-time").value = records[day] || "";
             document.getElementById("modal-schedule-text").value = schedules[day] || "";
@@ -700,8 +770,11 @@
             const val = document.getElementById("modal-study-time").value;
             const sched = document.getElementById("modal-schedule-text").value;
             
-            const records = JSON.parse(localStorage.getItem(`study_records_${currentUser.id}`) || "{}");
-            const schedules = JSON.parse(localStorage.getItem("global_schedules") || "{}");
+            const storageKey = `records_${currentYear}_${currentMonth+1}_${currentUser.id}`;
+            const records = JSON.parse(localStorage.getItem(storageKey) || "{}");
+            
+            const scheduleKey = `global_schedules_${currentYear}_${currentMonth+1}`;
+            const schedules = JSON.parse(localStorage.getItem(scheduleKey) || "{}");
 
             if (val > 0) records[selectedDateNum] = val;
             else delete records[selectedDateNum];
@@ -709,28 +782,49 @@
             if (sched.trim()) schedules[selectedDateNum] = sched;
             else delete schedules[selectedDateNum];
 
-            localStorage.setItem(`study_records_${currentUser.id}`, JSON.stringify(records));
-            localStorage.setItem("global_schedules", JSON.stringify(schedules));
+            localStorage.setItem(storageKey, JSON.stringify(records));
+            localStorage.setItem(scheduleKey, JSON.stringify(schedules));
             
             closeModal();
             renderCalendar();
         }
 
         function deleteCellRecord() {
-            const records = JSON.parse(localStorage.getItem(`study_records_${currentUser.id}`) || "{}");
-            const schedules = JSON.parse(localStorage.getItem("global_schedules") || "{}");
+            const storageKey = `records_${currentYear}_${currentMonth+1}_${currentUser.id}`;
+            const records = JSON.parse(localStorage.getItem(storageKey) || "{}");
+            
+            const scheduleKey = `global_schedules_${currentYear}_${currentMonth+1}`;
+            const schedules = JSON.parse(localStorage.getItem(scheduleKey) || "{}");
             
             delete records[selectedDateNum];
             delete schedules[selectedDateNum];
             
-            localStorage.setItem(`study_records_${currentUser.id}`, JSON.stringify(records));
-            localStorage.setItem("global_schedules", JSON.stringify(schedules));
+            localStorage.setItem(storageKey, JSON.stringify(records));
+            localStorage.setItem(scheduleKey, JSON.stringify(schedules));
             
             closeModal();
             renderCalendar();
         }
 
-        // 日記
+
+        /* ◀ ▶ 日記の移動ロジック */
+        function moveDiaryDate(days) {
+            const selectEl = document.getElementById("diary-date-select");
+            const currentVal = selectEl.value;
+            if(!currentVal) return;
+
+            const date = new Date(currentVal);
+            date.setDate(date.getDate() + days);
+
+            // YYYY-MM-DD 形式に成形して再セット
+            const y = date.getFullYear();
+            const m = (date.getMonth() + 1).toString().padStart(2, '0');
+            const d = date.getDate().toString().padStart(2, '0');
+            
+            selectEl.value = `${y}-${m}-${d}`;
+            loadDiary();
+        }
+
         function loadDiary() {
             const dateStr = document.getElementById("diary-date-select").value;
             if(!dateStr) return;
@@ -745,6 +839,7 @@
             diaryData[dateStr] = document.getElementById("diary-textarea").value;
             localStorage.setItem(`diary_${currentUser.id}`, JSON.stringify(diaryData));
         }
+
 
         // チャット
         function loadChat() {
@@ -789,14 +884,15 @@
             loadChat();
         }
 
-        // 管理者
+
+        // 管理者メニュー
         function switchAdminMenu(menu) {
             const view = document.getElementById("admin-view-content");
             view.innerHTML = "";
 
             if (menu === 'user-info') {
                 view.innerHTML = `
-                    <h3>ユーザ情報閲覧 (日記対応)</h3>
+                    <h3>ユーザ情報閲覧 (月・日記連動)</h3>
                     <select id="admin-user-select" onchange="viewUserData()">
                         <option value="">選択してください</option>
                         <option value="takuma">柿原 拓真</option>
@@ -814,13 +910,15 @@
                 renderAdminChatList();
             } else if (menu === 'schedule-manage') {
                 view.innerHTML = `
-                    <h3>予定作成 (全員共通)</h3>
-                    <input type="number" id="admin-sched-day" placeholder="日付を選択 (1〜30)" min="1" max="30">
+                    <h3>予定作成 (月別全員共通)</h3>
+                    <div style="display:flex; gap:8px;">
+                        <input type="number" id="admin-sched-year" value="2026" style="width:100px;">
+                        <input type="number" id="admin-sched-month" value="6" style="width:80px;">
+                        <input type="number" id="admin-sched-day" placeholder="日" style="width:80px;">
+                    </div>
                     <input type="text" id="admin-sched-text" placeholder="予定内容を入力">
                     <button onclick="saveAdminSchedule()" style="width:100%;">予定を書き込む</button>
-                    <div id="admin-sched-list" style="margin-top:20px; font-size:13px;"></div>
                 `;
-                renderAdminScheduleList();
             }
         }
 
@@ -829,15 +927,19 @@
             const res = document.getElementById("admin-user-result");
             if(!uid) { res.innerHTML = ""; return; }
 
-            const records = JSON.parse(localStorage.getItem(`study_records_${uid}`) || "{}");
             const diary = JSON.parse(localStorage.getItem(`diary_${uid}`) || "{}");
-
-            let text = `【勉強記録】\n`;
-            for(let i=1; i<=30; i++) {
-                if(records[i]) text += `${i}日: ${records[i]}分\n`;
+            
+            let text = `【学習記録 (直近設定月の一例)】\n※カレンダーデータは各月キーで安全にセーブされています。\n\n`;
+            
+            // 例として現在選択中の月レコードを抽出
+            const storageKey = `records_${currentYear}_${currentMonth+1}_${uid}`;
+            const records = JSON.parse(localStorage.getItem(storageKey) || "{}");
+            text += `▼ ${currentYear}年${currentMonth+1}月のデータ:\n`;
+            for(let i=1; i<=31; i++) {
+                if(records[i]) text += `  ${i}日: ${records[i]}分\n`;
             }
 
-            text += `\n【日記内容】\n`;
+            text += `\n【全期間の日記ログ】\n`;
             Object.keys(diary).forEach(date => {
                 if(diary[date].trim()) text += `[日付: ${date}]\n${diary[date]}\n------------------\n`;
             });
@@ -847,7 +949,7 @@
 
         function renderAdminChatList() {
             const list = document.getElementById("admin-chat-list");
-            list.innerHTML = "<h4>メッセージ一覧 (クリックで削除)</h4>";
+            list.innerHTML = "<h4>メッセージ一覧</h4>";
             const logs = JSON.parse(localStorage.getItem("global_chat_logs") || "[]");
 
             logs.forEach((log, index) => {
@@ -884,31 +986,25 @@
             renderAdminChatList();
         }
 
-        function renderAdminScheduleList() {
-            const list = document.getElementById("admin-sched-list");
-            list.innerHTML = "<h4>現在の共通予定</h4>";
-            const schedules = JSON.parse(localStorage.getItem("global_schedules") || "{}");
-
-            for(let i=1; i<=30; i++) {
-                if(schedules[i]) {
-                    list.innerHTML += `<div style="margin-bottom:5px;">${i}日: ${schedules[i]}</div>`;
-                }
-            }
-        }
-
         function saveAdminSchedule() {
-            const day = document.getElementById("admin-sched-day").value;
+            const y = document.getElementById("admin-sched-year").value;
+            const m = document.getElementById("admin-sched-month").value;
+            const d = document.getElementById("admin-sched-day").value;
             const text = document.getElementById("admin-sched-text").value;
-            if(!day || day < 1 || day > 30) { alert("正しい日付(1〜30)を入力してください"); return; }
 
-            const schedules = JSON.parse(localStorage.getItem("global_schedules") || "{}");
-            if(text.trim()) schedules[day] = text;
-            else delete schedules[day];
+            if(!y || !m || !d) { alert("年・月・日を正しく入力してください"); return; }
 
-            localStorage.setItem("global_schedules", JSON.stringify(schedules));
+            const scheduleKey = `global_schedules_${y}_${m}`;
+            const schedules = JSON.parse(localStorage.getItem(scheduleKey) || "{}");
+            
+            if(text.trim()) schedules[d] = text;
+            else delete schedules[d];
+
+            localStorage.setItem(scheduleKey, JSON.stringify(schedules));
+            alert(`${y}年${m}月${d}日に共通予定を登録しました。`);
             document.getElementById("admin-sched-day").value = "";
             document.getElementById("admin-sched-text").value = "";
-            renderAdminScheduleList();
+            renderCalendar();
         }
     </script>
 </body>
